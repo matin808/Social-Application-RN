@@ -1,26 +1,30 @@
 import {SafeAreaView, StyleSheet, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import CustomHeading from '../../Components/Heading';
+import CustomIcon from '../../Components/Icons';
 
 const Home = () => {
-  const [posts, setPosts] = useState(); // Initialize posts as an empty array
+  // const [posts, setPosts] = useState(); // Initialize posts as an empty array
 
-  const getData = async () => {
-    const response = await fetch('https://jsonplaceholder.typicode.com/posts');
-    const json = await response.json();
-    setPosts(json);
-  };
+  // const getData = async () => {
+  //   const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+  //   const json = await response.json();
+  //   setPosts(json);
+  // };
 
-  useEffect(() => {
-    getData();
-    console.log(posts);
-  }, []);
+  // useEffect(() => {
+  //   getData();
+  //   console.log(posts);
+  // }, []);
 
   return (
     <SafeAreaView style={styles.HomeContainer}>
       {/* <Text style={{fontSize: 40}}>{posts?.length}</Text> */}
       <View style={styles.HeadingContainer}>
         <CustomHeading style={styles.CustomHeadingStyle} />
+
+        {/* <CustomIcon name="search" /> */}
+        <CustomIcon name="add-box" />
       </View>
     </SafeAreaView>
   );
@@ -35,12 +39,15 @@ const styles = StyleSheet.create({
   HeadingContainer: {
     marginTop: 20,
     marginLeft: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
   },
 
   CustomHeadingStyle: {
     color: '#fff',
     fontSize: 25,
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Poppins-Medium',
   },
 });
 
