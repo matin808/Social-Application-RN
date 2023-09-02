@@ -5,12 +5,18 @@ interface IIconProps {
   name: string;
   size?: number;
   color?: string;
+  handlePress?: (arg: any) => void;
 }
 
 const CustomIcon = (props: IIconProps) => {
-  const {name, size, color} = props;
+  const {name, size, color, handlePress} = props;
   return (
-    <Icon name={name} size={size ? size : 35} color={color ? color : '#fff'} />
+    <Icon
+      onPress={handlePress}
+      name={name}
+      size={size ? size : 35}
+      color={color ? color : '#fff'}
+    />
   );
 };
 

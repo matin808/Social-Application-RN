@@ -1,9 +1,25 @@
-import {SafeAreaView, StyleSheet, View} from 'react-native';
-import React from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import {FlatList, SafeAreaView, StyleSheet, View} from 'react-native';
+import React, {useEffect} from 'react';
 import CustomHeading from '../../Components/Heading';
 import CustomIcon from '../../Components/Icons';
+import {useDispatch, useSelector} from 'react-redux';
+import {AddData} from '../../Redux/actions/Actions';
 
-const Home = () => {
+import SinglePost from './SinglePost';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackProps} from '../../Navigation';
+
+export interface IPostProps {
+  body: string;
+  id: number;
+  userId: number;
+  title: string;
+}
+
+type Props = NativeStackScreenProps<RootStackProps, 'Home'>;
+
+const Home = ({navigation}: Props) => {
   // const [posts, setPosts] = useState(); // Initialize posts as an empty array
 
   // const getData = async () => {
@@ -11,21 +27,33 @@ const Home = () => {
   //   const json = await response.json();
   //   setPosts(json);
   // };
+  const dispatch = useDispatch();
+  const data = useSelector((state: any) => state.reducers.posts);
+  if (data) {
+    console.log(data);
+  }
 
-  // useEffect(() => {
-  //   getData();
-  //   console.log(posts);
-  // }, []);
+  useEffect(() => {
+    dispatch(AddData() as any);
+    // console.log(posts);
+  }, []);
 
+  const handlePress = () => {
+    navigation.navigate('AddData');
+  };
   return (
     <SafeAreaView style={styles.HomeContainer}>
-      {/* <Text style={{fontSize: 40}}>{posts?.length}</Text> */}
       <View style={styles.HeadingContainer}>
         <CustomHeading style={styles.CustomHeadingStyle} />
-
         {/* <CustomIcon name="search" /> */}
-        <CustomIcon name="add-box" />
+        <CustomIcon name="add-box" handlePress={handlePress} />
       </View>
+
+      <FlatList
+        data={data}
+        keyExtractor={item => item.id}
+        renderItem={({item}) => <SinglePost item={item} />}
+      />
     </SafeAreaView>
   );
 };

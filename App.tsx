@@ -1,6 +1,7 @@
 import React from 'react';
 import Home from './src/Screens/Home';
 import {StatusBar} from 'react-native';
+import RootNavigation from './src/Navigation';
 
 const App = () => {
   return (
@@ -10,7 +11,7 @@ const App = () => {
         // backgroundColor="#fff"
         barStyle="light-content"
       />
-      <Home />
+      <RootNavigation />
     </>
   );
 };
