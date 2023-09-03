@@ -4,15 +4,15 @@ import React, {useEffect} from 'react';
 import CustomHeading from '../../Components/Heading';
 import CustomIcon from '../../Components/Icons';
 import {useDispatch, useSelector} from 'react-redux';
-import {AddData} from '../../Redux/actions/Actions';
+import {DisplayData} from '../../Redux/actions/Actions';
 
 import SinglePost from './SinglePost';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackProps} from '../../Navigation';
 
 export interface IPostProps {
-  body: string;
   id: number;
+  body: string;
   userId: number;
   title: string;
 }
@@ -34,7 +34,7 @@ const Home = ({navigation}: Props) => {
   }
 
   useEffect(() => {
-    dispatch(AddData() as any);
+    dispatch(DisplayData() as any);
     // console.log(posts);
   }, []);
 

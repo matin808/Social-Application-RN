@@ -1,44 +1,58 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import {View, Text} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import CustomInput from '../../Components/Input';
 import CustomButton from '../../Components/Button';
 import {styles} from '../AddPost';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackProps} from '../../Navigation';
-import {getSinglePostData} from '../../Utils/GetData';
+import {useDispatch, useSelector} from 'react-redux';
+import {UpdateData} from '../../Redux/actions/Actions';
 import {IPostProps} from '../Home';
 
 type Props = NativeStackScreenProps<RootStackProps, 'UpdatePost'>;
-
-const UpdatePost = ({route}: Props) => {
-  const [post, setPost] = useState<IPostProps>(post);
+type titleProps = string;
+const UpdatePost = ({route, navigation}: Props) => {
+  // const [post, setPost] = useState<IPostProps>();
   const id = route.params.id;
+  const postData = useSelector((data: any) =>
+    data.reducers.posts.filter((d: any) => d.id === id),
+  );
+  let newData = postData[0];
+  console.log('ppsstt', newData);
+  const {title, body} = newData;
+  const [updatetitle, setUpdateTitle] = useState<titleProps>(title);
+  const [updateBody, setUpdateBody] = useState<titleProps>(body);
 
-  useEffect(() => {
-    getSinglePostData(id, setPost);
-  }, []);
-  var title = post?.title;
-  var body = post?.body;
-  console.log('sdsd', title, body);
-  const [updatetitle, setUpdateTitle] = useState(title);
-  const [updateBody, setUpdateBody] = useState(body);
-  console.log('d', updatetitle, updateBody);
+  const dispatch = useDispatch();
+
+  const handleSubmit = () => {
+    const updatedData: IPostProps = {
+      id: newData.id,
+      title: updatetitle,
+      body: updateBody,
+      userId: newData?.userId,
+    };
+    dispatch(UpdateData(updatedData) as any);
+    navigation.navigate('Home');
+    console.log('zzz', updatedData);
+  };
 
   return (
     <View style={styles.AddDataContainer}>
       <Text style={styles.LabelStyle}>Title</Text>
       <CustomInput
         styles={[styles.InputStyle]}
-        values={updatetitle && updatetitle}
+        value={updatetitle}
+        onChangeValue={setUpdateTitle}
       />
       <Text style={styles.LabelStyle}>Body</Text>
       <CustomInput
         styles={[styles.InputStyle, styles.InputDesc]}
         value={updateBody}
+        onChangeValue={setUpdateBody}
       />
 
-      <CustomButton />
+      <CustomButton handlePress={handleSubmit} />
     </View>
   );
 };

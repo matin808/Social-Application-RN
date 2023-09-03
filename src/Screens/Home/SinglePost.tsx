@@ -1,12 +1,17 @@
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {IPostProps} from '.';
 import CustomIcon from '../../Components/Icons';
 import {useNavigation} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
+import {DeleteData} from '../../Redux/actions/Actions';
 
 interface ISinglepostProps {
   item: IPostProps;
 }
+type Props = {
+  navigate: any;
+};
 
 const SinglePost = ({item}: ISinglepostProps) => {
   // const [user, setUser] = useState();
@@ -22,7 +27,13 @@ const SinglePost = ({item}: ISinglepostProps) => {
   // useEffect(() => {
   //   getUserData();
   // }, []);
-  const navigation = useNavigation();
+
+  const navigation: Props = useNavigation();
+  const dispatch = useDispatch();
+  const handledeleteFunc = (id: number) => {
+    // console.log('to delete', id);
+    dispatch(DeleteData(id) as any);
+  };
 
   return (
     <View style={styles.PostContainer}>
@@ -33,13 +44,12 @@ const SinglePost = ({item}: ISinglepostProps) => {
             onPress={() => navigation.navigate('UpdatePost', {id: item.id})}>
             <CustomIcon name="edit" color="lightgray" />
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => handledeleteFunc(item.id)}>
             <CustomIcon name="delete" color="red" />
           </TouchableOpacity>
         </View>
       </View>
       <Text style={styles.postBody}>{item.body.substring(0, 40)}</Text>
-      {/* <Text onPress={() => handleUserData(item.userId)}>{item.userId}</Text> */}
     </View>
   );
 };
@@ -51,8 +61,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     paddingHorizontal: 5,
     paddingVertical: 15,
-    // borderTopEndRadius: 20,
-    // borderTopLeftRadius: 20,
     borderRadius: 20,
   },
   postTitle: {
