@@ -20,13 +20,6 @@ export interface IPostProps {
 type Props = NativeStackScreenProps<RootStackProps, 'Home'>;
 
 const Home = ({navigation}: Props) => {
-  // const [posts, setPosts] = useState(); // Initialize posts as an empty array
-
-  // const getData = async () => {
-  //   const response = await fetch('https://jsonplaceholder.typicode.com/posts');
-  //   const json = await response.json();
-  //   setPosts(json);
-  // };
   const dispatch = useDispatch();
   const data = useSelector((state: any) => state.reducers.posts);
   if (data) {
@@ -35,18 +28,23 @@ const Home = ({navigation}: Props) => {
 
   useEffect(() => {
     dispatch(DisplayData() as any);
-    // console.log(posts);
   }, []);
 
   const handlePress = () => {
     navigation.navigate('AddData');
   };
+
+  const handleUserDetail = () => {
+    navigation.navigate('UserList');
+  };
   return (
     <SafeAreaView style={styles.HomeContainer}>
       <View style={styles.HeadingContainer}>
         <CustomHeading style={styles.CustomHeadingStyle} />
-        {/* <CustomIcon name="search" /> */}
-        <CustomIcon name="add-box" handlePress={handlePress} />
+        <View style={styles.IconContainer}>
+          <CustomIcon name="add-box" handlePress={handlePress} />
+          <CustomIcon name="person-add-alt" handlePress={handleUserDetail} />
+        </View>
       </View>
 
       <FlatList
@@ -76,6 +74,10 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 25,
     fontFamily: 'Poppins-Medium',
+  },
+  IconContainer: {
+    flexDirection: 'row',
+    gap: 15,
   },
 });
 

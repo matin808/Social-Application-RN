@@ -1,19 +1,48 @@
 import {View, Text, StyleSheet} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import CustomInput from '../../Components/Input';
 import CustomButton from '../../Components/Button';
+import {useDispatch} from 'react-redux';
+import {AddData} from '../../Redux/actions/Actions';
+import {RootStackProps} from '../../Navigation';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {IPostProps} from '../Home';
 
-const AddDataForm = () => {
-  // const screenHight = Dimensions.get('window').width;
-  // const handlePress = () => {};
+type Props = NativeStackScreenProps<RootStackProps, 'AddData'>;
+
+const AddDataForm = ({navigation}: Props) => {
+  const [title, setTitle] = useState<string>('');
+  const [body, setBody] = useState<string>('');
+  const dispatch = useDispatch();
+  const handleSubmit = () => {
+    const item: IPostProps = {
+      id: Math.floor(Math.random() * 1000),
+      title,
+      body,
+      userId: 2,
+    };
+
+    dispatch(AddData(item) as any);
+    navigation.navigate('Home');
+    setTitle('');
+    setBody('');
+  };
+
   return (
     <View style={styles.AddDataContainer}>
       <Text style={styles.LabelStyle}>Title</Text>
-      <CustomInput styles={[styles.InputStyle]} />
+      <CustomInput
+        styles={[styles.InputStyle]}
+        value={title}
+        onChangeValue={setTitle}
+      />
       <Text style={styles.LabelStyle}>Body</Text>
-      <CustomInput styles={[styles.InputStyle, styles.InputDesc]} />
-
-      <CustomButton />
+      <CustomInput
+        styles={[styles.InputStyle, styles.InputDesc]}
+        value={body}
+        onChangeValue={setBody}
+      />
+      <CustomButton handlePress={handleSubmit} />
     </View>
   );
 };

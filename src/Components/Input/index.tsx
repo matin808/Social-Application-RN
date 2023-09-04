@@ -4,7 +4,7 @@ import React from 'react';
 interface IInputProps {
   styles: Object;
   value?: any;
-  onChangeValue?: (arg: any) => void;
+  onChangeValue: (arg: any) => void;
 }
 
 const CustomInput = (props: IInputProps) => {

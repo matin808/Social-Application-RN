@@ -1,5 +1,5 @@
 import {IPostProps} from '../../Screens/Home';
-import {DISPLAY_DATA, REMOVE_DATA, UPDATE_DATA} from '../Constants';
+import {ADD_DATA, DISPLAY_DATA, REMOVE_DATA, UPDATE_DATA} from '../Constants';
 
 export interface IInitialProps {
   posts: IPostProps[];
@@ -17,6 +17,11 @@ export const Reducers = (state = initialStore, actions: IActionProps) => {
   switch (actions.type) {
     case DISPLAY_DATA: {
       return {posts: [...state.posts, ...actions.payload]};
+    }
+
+    case ADD_DATA: {
+      console.log('reduceradddd', actions.payload);
+      return {posts: [...state.posts, actions.payload]};
     }
 
     case UPDATE_DATA: {

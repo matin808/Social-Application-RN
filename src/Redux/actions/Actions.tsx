@@ -1,5 +1,5 @@
 import {IPostProps} from '../../Screens/Home';
-import {DISPLAY_DATA, REMOVE_DATA, UPDATE_DATA} from '../Constants';
+import {ADD_DATA, DISPLAY_DATA, REMOVE_DATA, UPDATE_DATA} from '../Constants';
 
 export const DisplayData = () => {
   return async (dispatch: any) => {
@@ -13,16 +13,33 @@ export const DisplayData = () => {
     });
   };
 };
-type UpdateDataProps = {
-  updatedData: IPostProps;
+
+export const AddData = (data: IPostProps) => {
+  console.log('from add', data);
+  return async (dispatch: any) => {
+    await fetch('https://jsonplaceholder.typicode.com/posts', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    })
+      .then(response => response.json())
+      .then(data =>
+        dispatch({
+          type: ADD_DATA,
+          payload: data,
+        }),
+      );
+  };
 };
 
-export const UpdateData = (updatedData: UpdateDataProps) => {
-  let id = updatedData?.id;
+export const UpdateData = (updatedData: IPostProps) => {
+  let id: number = updatedData?.id;
   console.log('mmmeeeeee', id);
   return async (dispatch: any) => {
     await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
-      method: 'PUT',
+      method: 'PATCH',
       body: JSON.stringify(updatedData),
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
@@ -34,11 +51,18 @@ export const UpdateData = (updatedData: UpdateDataProps) => {
           type: UPDATE_DATA,
           payload: data,
         }),
-      );
+      )
+      .catch(function (error) {
+        console.log(
+          'There has been a problem with your fetch operation: ' +
+            error.message,
+        );
+        throw error;
+      });
   };
 };
 
-export const DeleteData = id => {
+export const DeleteData = (id: number) => {
   return async (dispatch: any) => {
     await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
       method: 'DELETE',

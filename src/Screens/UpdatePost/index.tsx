@@ -12,13 +12,11 @@ import {IPostProps} from '../Home';
 type Props = NativeStackScreenProps<RootStackProps, 'UpdatePost'>;
 type titleProps = string;
 const UpdatePost = ({route, navigation}: Props) => {
-  // const [post, setPost] = useState<IPostProps>();
   const id = route.params.id;
   const postData = useSelector((data: any) =>
     data.reducers.posts.filter((d: any) => d.id === id),
   );
   let newData = postData[0];
-  console.log('ppsstt', newData);
   const {title, body} = newData;
   const [updatetitle, setUpdateTitle] = useState<titleProps>(title);
   const [updateBody, setUpdateBody] = useState<titleProps>(body);
@@ -34,6 +32,8 @@ const UpdatePost = ({route, navigation}: Props) => {
     };
     dispatch(UpdateData(updatedData) as any);
     navigation.navigate('Home');
+    setUpdateTitle('');
+    setUpdateBody('');
     console.log('zzz', updatedData);
   };
 
