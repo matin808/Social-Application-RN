@@ -50,7 +50,7 @@ const Home = ({navigation}: Props) => {
       <FlatList
         data={data}
         keyExtractor={item => item.id}
-        renderItem={({item}) => <SinglePost item={item} />}
+        renderItem={({item}) => <SinglePost item={item} showOptions={true} />}
       />
     </SafeAreaView>
   );
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
 
   HeadingContainer: {
     marginTop: 20,
-    marginLeft: 20,
+    marginLeft: 5,
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 10,

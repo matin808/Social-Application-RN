@@ -7,7 +7,7 @@ interface IHeadingProps {
 }
 
 const defaultProps: IHeadingProps = {
-  title: 'NitamGram',
+  title: 'SSntagram',
 };
 
 const CustomHeading = (props: IHeadingProps) => {

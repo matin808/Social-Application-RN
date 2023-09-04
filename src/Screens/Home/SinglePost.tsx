@@ -8,30 +8,16 @@ import {DeleteData} from '../../Redux/actions/Actions';
 
 interface ISinglepostProps {
   item: IPostProps;
+  showOptions: boolean;
 }
 type Props = {
   navigate: any;
 };
 
-const SinglePost = ({item}: ISinglepostProps) => {
-  // const [user, setUser] = useState();
-  // const getUserData = async () => {
-  //   const data = await fetch(
-  //     `https://jsonplaceholder.typicode.com/users/${item.userId}`,
-  //   );
-  //   const res = await data.json();
-  //   setUser(res);
-  //   if (user) console.log(user);
-  // };
-
-  // useEffect(() => {
-  //   getUserData();
-  // }, []);
-
+const SinglePost = ({item, showOptions}: ISinglepostProps) => {
   const navigation: Props = useNavigation();
   const dispatch = useDispatch();
   const handledeleteFunc = (id: number) => {
-    // console.log('to delete', id);
     dispatch(DeleteData(id) as any);
   };
 
@@ -39,15 +25,17 @@ const SinglePost = ({item}: ISinglepostProps) => {
     <View style={styles.PostContainer}>
       <View style={styles.PostHeading}>
         <Text style={styles.postTitle}>{item.title.substring(0, 20)}</Text>
-        <View style={styles.IconContainer}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('UpdatePost', {id: item.id})}>
-            <CustomIcon name="edit" color="lightgray" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => handledeleteFunc(item.id)}>
-            <CustomIcon name="delete" color="red" />
-          </TouchableOpacity>
-        </View>
+        {showOptions ? (
+          <View style={styles.IconContainer}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('UpdatePost', {id: item.id})}>
+              <CustomIcon name="edit" color="lightgray" />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => handledeleteFunc(item.id)}>
+              <CustomIcon name="delete" color="red" />
+            </TouchableOpacity>
+          </View>
+        ) : null}
       </View>
       <Text style={styles.postBody}>{item.body.substring(0, 40)}</Text>
     </View>

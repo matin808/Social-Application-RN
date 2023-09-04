@@ -1,10 +1,21 @@
-import {View, Text, StyleSheet} from 'react-native';
-import React from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import {View, StyleSheet, FlatList} from 'react-native';
+import React, {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {fetchUsers} from '../../Redux/actions/Actions';
+import User from './User';
 
 const UserList = () => {
+  const dispatch = useDispatch();
+
+  const data = useSelector((state: any) => state.reducers.users);
+
+  useEffect(() => {
+    dispatch(fetchUsers() as any);
+  }, []);
   return (
     <View style={styles.userListContainer}>
-      <Text>Hello</Text>
+      <FlatList data={data} renderItem={({item}) => <User userItem={item} />} />
     </View>
   );
 };

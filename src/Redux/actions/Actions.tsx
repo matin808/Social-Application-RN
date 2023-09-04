@@ -1,5 +1,11 @@
 import {IPostProps} from '../../Screens/Home';
-import {ADD_DATA, DISPLAY_DATA, REMOVE_DATA, UPDATE_DATA} from '../Constants';
+import {
+  ADD_DATA,
+  DISPLAY_DATA,
+  DISPLAY_USER,
+  REMOVE_DATA,
+  UPDATE_DATA,
+} from '../Constants';
 
 export const DisplayData = () => {
   return async (dispatch: any) => {
@@ -72,5 +78,24 @@ export const DeleteData = (id: number) => {
         payload: id,
       }),
     );
+  };
+};
+
+export const fetchUsers = () => {
+  return async (dispatch: any) => {
+    const res = await fetch('https://jsonplaceholder.typicode.com/users');
+    const data = await res.json();
+    console.log('myuserdata', data);
+    dispatch({
+      type: DISPLAY_USER,
+      payload: data,
+    });
+    // .then(res => res.json())
+    // .then(data =>
+    //   dispatch({
+    //     type: DISPLAY_USER,
+    //     payload: data,
+    //   }),
+    // );
   };
 };
