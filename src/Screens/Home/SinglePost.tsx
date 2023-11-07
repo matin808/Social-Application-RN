@@ -1,10 +1,11 @@
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import React from 'react';
 import {IPostProps} from '.';
 import CustomIcon from '../../Components/Icons';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
 import {DeleteData} from '../../Redux/actions/Actions';
+import {Swipeable} from 'react-native-gesture-handler';
 
 interface ISinglepostProps {
   item: IPostProps;
@@ -18,27 +19,42 @@ const SinglePost = ({item, showOptions}: ISinglepostProps) => {
   const navigation: Props = useNavigation();
   const dispatch = useDispatch();
   const handledeleteFunc = (id: number) => {
-    dispatch(DeleteData(id) as any);
+    Alert.alert('Delete Item', 'Are you sure you want to delete this item?', [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {text: 'OK', onPress: () => dispatch(DeleteData(id) as any)},
+    ]);
   };
-
-  return (
-    <View style={styles.PostContainer}>
-      <View style={styles.PostHeading}>
-        <Text style={styles.postTitle}>{item.title.substring(0, 20)}</Text>
+  const renderRightActions = () => {
+    return (
+      <>
         {showOptions ? (
           <View style={styles.IconContainer}>
             <TouchableOpacity
               onPress={() => navigation.navigate('UpdatePost', {id: item.id})}>
-              <CustomIcon name="edit" color="lightgray" />
+              <CustomIcon name="edit" color="#fff" size={40} />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => handledeleteFunc(item.id)}>
-              <CustomIcon name="delete" color="red" />
+              <CustomIcon name="delete" color="red" size={40} />
             </TouchableOpacity>
           </View>
         ) : null}
+      </>
+    );
+  };
+
+  return (
+    <Swipeable renderRightActions={() => renderRightActions()}>
+      <View style={styles.PostContainer}>
+        <View style={styles.PostHeading}>
+          <Text style={styles.postTitle}>{item.title.substring(0, 20)}</Text>
+        </View>
+        <Text style={styles.postBody}>{item.body.substring(0, 40)}</Text>
       </View>
-      <Text style={styles.postBody}>{item.body.substring(0, 40)}</Text>
-    </View>
+    </Swipeable>
   );
 };
 
@@ -63,12 +79,16 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     fontSize: 20,
   },
+
   PostHeading: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   IconContainer: {
     flexDirection: 'row',
+    alignSelf: 'center',
+    paddingHorizontal: 10,
+    marginLeft: 10,
   },
 });
 

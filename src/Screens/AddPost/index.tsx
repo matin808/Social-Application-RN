@@ -2,18 +2,18 @@ import {View, Text, StyleSheet} from 'react-native';
 import React, {useState} from 'react';
 import CustomInput from '../../Components/Input';
 import CustomButton from '../../Components/Button';
-import {useDispatch} from 'react-redux';
 import {AddData} from '../../Redux/actions/Actions';
 import {RootStackProps} from '../../Navigation';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {IPostProps} from '../Home';
+import {useAppDispatch} from '../../Redux/Store';
 
 type Props = NativeStackScreenProps<RootStackProps, 'AddData'>;
 
 const AddDataForm = ({navigation}: Props) => {
   const [title, setTitle] = useState<string>('');
   const [body, setBody] = useState<string>('');
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const handleSubmit = () => {
     const item: IPostProps = {
       id: Math.floor(Math.random() * 1000),

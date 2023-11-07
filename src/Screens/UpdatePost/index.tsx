@@ -16,8 +16,10 @@ const UpdatePost = ({route, navigation}: Props) => {
   const postData = useSelector((data: any) =>
     data.reducers.posts.filter((d: any) => d.id === id),
   );
+
   let newData = postData[0];
   const {title, body} = newData;
+
   const [updatetitle, setUpdateTitle] = useState<titleProps>(title);
   const [updateBody, setUpdateBody] = useState<titleProps>(body);
 

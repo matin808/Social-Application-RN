@@ -9,6 +9,7 @@ import {DisplayData} from '../../Redux/actions/Actions';
 import SinglePost from './SinglePost';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackProps} from '../../Navigation';
+// import {useAppDispatch} from '../../Redux/Store';
 
 export interface IPostProps {
   id: number;
@@ -20,14 +21,13 @@ export interface IPostProps {
 type Props = NativeStackScreenProps<RootStackProps, 'Home'>;
 
 const Home = ({navigation}: Props) => {
+  // const dispatch = useAppDispatch();
   const dispatch = useDispatch();
   const data = useSelector((state: any) => state.reducers.posts);
-  if (data) {
-    console.log(data);
-  }
 
   useEffect(() => {
     dispatch(DisplayData() as any);
+    // DisplayDatas(dispatch);
   }, []);
 
   const handlePress = () => {

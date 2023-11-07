@@ -14,7 +14,7 @@ export interface IInitialProps {
 
 interface IActionProps {
   type: string;
-  payload: IPostProps[];
+  payload: IPostProps[] | IPostProps;
 }
 const initialStore: IInitialProps = {
   posts: [],
@@ -24,11 +24,15 @@ const initialStore: IInitialProps = {
 export const Reducers = (state = initialStore, actions: IActionProps) => {
   switch (actions.type) {
     case DISPLAY_DATA: {
-      return {posts: [...actions.payload]};
+      // return {posts: [...actions.payload]};
+      return {
+        posts: Array.isArray(actions.payload)
+          ? [...actions.payload]
+          : actions.payload,
+      };
     }
 
     case ADD_DATA: {
-      console.log('reduceradddd', actions.payload);
       return {posts: [...state.posts, actions.payload]};
     }
 
@@ -47,8 +51,14 @@ export const Reducers = (state = initialStore, actions: IActionProps) => {
     }
 
     case DISPLAY_USER: {
-      console.log('froma ctions', actions.payload);
-      return {...state, users: [...actions.payload]};
+      // return {...state, users: [...actions.payload]};
+
+      return {
+        ...state,
+        users: Array.isArray(actions.payload)
+          ? [...actions.payload]
+          : actions.payload,
+      };
     }
 
     default:
